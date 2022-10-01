@@ -1,0 +1,30 @@
+{
+  "displayName": "<service-name> <cr-region> service request latency above 10s",
+  "userLabels": {},
+  "conditions": [
+    {
+      "displayName": "<service-name> <cr-region> service request latency above 10s",
+      "conditionThreshold": {
+        "filter": "resource.type = \"cloud_run_revision\" AND (resource.labels.location = \"<cr-region>\" AND resource.labels.service_name = \"<service-name>\" AND resource.labels.project_id = \"<project-id>\") AND metric.type = \"run.googleapis.com/request_latencies\"",
+        "aggregations": [
+          {
+            "alignmentPeriod": "300s",
+            "crossSeriesReducer": "REDUCE_NONE",
+            "perSeriesAligner": "ALIGN_PERCENTILE_99"
+          }
+        ],
+        "comparison": "COMPARISON_GT",
+        "duration": "0s",
+        "trigger": {
+          "count": 1
+        },
+        "thresholdValue": 10000
+      }
+    }
+  ],
+  "alertStrategy": {
+    "autoClose": "604800s"
+  },
+  "combiner": "OR",
+  "enabled": true
+}

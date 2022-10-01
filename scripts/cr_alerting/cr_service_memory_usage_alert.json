@@ -1,0 +1,30 @@
+{
+  "displayName": "<service-name> <cr-region> service memory utilisation above 90%",
+  "userLabels": {},
+  "conditions": [
+    {
+      "displayName": "<service-name> <cr-region> service memory utilisation above 90%",
+      "conditionThreshold": {
+        "filter": "resource.type = \"cloud_run_revision\" AND (resource.labels.location = \"<cr-region>\" AND resource.labels.service_name = \"<service-name>\" AND resource.labels.project_id = \"<project-id>\") AND metric.type = \"run.googleapis.com/container/memory/utilizations\"",
+        "aggregations": [
+          {
+            "alignmentPeriod": "300s",
+            "crossSeriesReducer": "REDUCE_NONE",
+            "perSeriesAligner": "ALIGN_PERCENTILE_99"
+          }
+        ],
+        "comparison": "COMPARISON_GT",
+        "duration": "0s",
+        "trigger": {
+          "count": 1
+        },
+        "thresholdValue": 0.9
+      }
+    }
+  ],
+  "alertStrategy": {
+    "autoClose": "604800s"
+  },
+  "combiner": "OR",
+  "enabled": true
+}
