@@ -1,0 +1,28 @@
+{
+  "displayName": "<service-name> <cr-region> service CPU utilisation above 90%",
+  "combiner": "OR",
+  "conditions": [
+    {
+      "displayName": "<service-name> <cr-region> service CPU utilisation above 90%",
+      "conditionThreshold": {
+        "aggregations": [
+          {
+            "alignmentPeriod": "300s",
+            "perSeriesAligner": "ALIGN_PERCENTILE_99"
+          }
+        ],
+        "comparison": "COMPARISON_GT",
+        "duration": "0s",
+        "filter": "resource.type = \"cloud_run_revision\" AND (resource.labels.location = \"<cr-region>\" AND resource.labels.service_name = \"<service-name>\" AND resource.labels.project_id = \"<project-id>\") AND metric.type = \"run.googleapis.com/container/cpu/utilizations\"",
+        "thresholdValue": 0.9,
+        "trigger": {
+          "count": 1
+        }
+      }
+    }
+  ],
+  "alertStrategy": {
+    "autoClose": "604800s"
+  },
+  "enabled": true
+}
