@@ -54,6 +54,25 @@ locals {
       serverless_robot_group_name = "Serverless Robot Group Prod"
     }
   ]
+
+  eng_group_folder_permissions = [
+    "roles/viewer",
+    "roles/logging.viewAccessor",
+    "roles/iap.tunnelResourceAccessor",
+    "roles/iam.serviceAccountUser",
+  ]
+  cloudops_folder_permissions  = [
+    "roles/compute.loadBalancerAdmin",
+    "roles/monitoring.admin",
+    "roles/logging.admin",
+    "roles/errorreporting.admin",
+    "roles/secretmanager.admin",
+    "roles/cloudbuild.builds.editor",
+    "roles/cloudscheduler.admin",
+    "roles/run.admin",
+    "roles/compute.securityAdmin",
+    "roles/serviceusage.serviceUsageConsumer",
+  ]
 }
 
 // Get org ID
@@ -156,5 +175,38 @@ resource "google_cloud_identity_group" "serverless_robot_group" {
   labels = {
     "cloudidentity.googleapis.com/groups.discussion_forum" = ""
   }
+}
+//---------------------------------------------------------------------------//
+
+// Create top level folder
+resource "google_folder" "env_folder" {
+
+  display_name = local.folder_name
+  parent       = data.google_organization.org.name
+
+  depends_on = [data.google_organization.org]
+}
+
+//---------------------------------------------------------------------------// group permissions for folder
+resource "google_folder_iam_member" "eng_group_folder_permissions" {
+
+  folder   = google_folder.env_folder.folder_id
+  for_each = toset(local.eng_group_folder_permissions)
+  role     = each.value
+
+  member = "group:${local.eng_group_key}"
+
+  depends_on = [google_folder.env_folder, module.eng_group]
+}
+
+resource "google_folder_iam_member" "cloudops_group_folder_permissions" {
+
+  folder   = google_folder.env_folder.folder_id
+  for_each = toset(local.cloudops_folder_permissions)
+  role     = each.value
+
+  member = "group:${local.cloudops_group_key}"
+
+  depends_on = [google_folder.env_folder, module.cloud_ops_team_group]
 }
 //---------------------------------------------------------------------------//
