@@ -73,6 +73,9 @@ locals {
     "roles/compute.securityAdmin",
     "roles/serviceusage.serviceUsageConsumer",
   ]
+
+  // project names
+  host_project_name = "vpc-host-${local.env}"
 }
 
 // Get org ID
@@ -210,3 +213,31 @@ resource "google_folder_iam_member" "cloudops_group_folder_permissions" {
   depends_on = [google_folder.env_folder, module.cloud_ops_team_group]
 }
 //---------------------------------------------------------------------------//
+
+// Create host project with shared VPC and Serverless VPC connector
+module "host_project" {
+
+  source = "../../modules/projects/host_project"
+
+  folder_id                     = google_folder.env_folder.folder_id
+  billing_account               = local.billing_acc_id
+  project_name                  = local.host_project_name
+  vpc_access_conn_machine_type  = "f1-micro" // https://cloud.google.com/compute/vm-instance-pricing
+  vpc_access_conn_min_instances = 2
+  vpc_access_conn_max_instances = 4
+
+  depends_on = [google_folder.env_folder, data.google_billing_account.my_billing_account]
+}
+
+// Host project permissions for serverless-robot group
+// This is to allow service projects (those which own the serverless-robot service accounts in the group) to gain
+// access to the VPC Connector
+resource "google_project_iam_member" "serverless_robot_group_host_permissions" {
+
+  project = module.host_project.project_id
+  role    = "roles/vpcaccess.user"
+
+  member = "group:${local.serverless_robot_group_key}"
+
+  depends_on = [module.host_project]
+}
