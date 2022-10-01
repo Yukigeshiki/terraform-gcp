@@ -18,7 +18,7 @@ locals {
 
   env         = "prod"
   org         = "robothouse.io"
-  folder_name = "development"
+  folder_name = "production"
 
   billing_acc_id = data.google_billing_account.my_billing_account.id
 }
