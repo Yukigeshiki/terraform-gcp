@@ -172,7 +172,7 @@ module "project_1" {
   depends_on = [google_folder.env_folder, module.host_project, data.google_billing_account.my_billing_account]
 }
 
-module "shared_redis_project1" {
+module "shared_redis_project_1" {
 
   source = "../../modules/projects/template_projects/shared_redis"
 
