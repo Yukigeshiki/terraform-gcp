@@ -31,10 +31,10 @@ locals {
   cloudops_group_name = "Cloud Operations Team"
 
   // product teams
-  product1_product_group_name       = "Product 1 Product Team"
-  product1_product_group_key        = "product1@${local.org}"
-  product2_product_group_name        = "Product 2 Product Team"
-  product2_product_group_key         = "product2@${local.org}"
+  product1_product_group_name = "Product 1 Product Team"
+  product1_product_group_key  = "product1@${local.org}"
+  product2_product_group_name = "Product 2 Product Team"
+  product2_product_group_key  = "product2@${local.org}"
   product3_product_group_name = "Product 3 Product Team"
   product3_product_group_key  = "product3@${local.org}"
 
