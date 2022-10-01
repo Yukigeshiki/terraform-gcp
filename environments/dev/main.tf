@@ -79,7 +79,7 @@ locals {
   // project names
   host_project_name          = "vpc-host-${local.env}"
   project1_project_name      = "project1-${local.env}"
-  shared_redis_project1_name = "shared-redis-${local.env}"
+  shared_redis_project1_name = "shared-redis-project1-${local.env}"
 }
 
 // Get org ID
@@ -296,7 +296,7 @@ module "project_1" {
   depends_on = [google_folder.env_folder, module.host_project, data.google_billing_account.my_billing_account]
 }
 
-module "aux_shared_redis_project" {
+module "shared_redis_project1" {
 
   source = "../../modules/projects/template_projects/shared_redis"
 
