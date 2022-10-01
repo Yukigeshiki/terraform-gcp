@@ -38,6 +38,8 @@ locals {
   product3_product_group_name = "Product 3 Product Team"
   product3_product_group_key  = "product3@${local.org}"
 
+  logging_sink_bucket = "aggregated-logging-sink-bucket"
+
   serverless_robot_group_id  = "<serverless-robot-group-id>"  // dev group ID TODO: Fetch this as data at runtime
   serverless_robot_group_key = "serverless-sa-dev@${local.org}"
   serverless_robot           = [
@@ -241,3 +243,34 @@ resource "google_project_iam_member" "serverless_robot_group_host_permissions" {
 
   depends_on = [module.host_project]
 }
+
+//---------------------------------------------------------------------------// folder logging sink
+// create aggregated logging sink for env folder
+// - the logging bucket (aggregated-logging-sink-bucket) was created manually as Terraform currently does not have an
+//   API to create logging buckets
+resource "google_logging_folder_sink" "aggregated_logging_sink" {
+
+  name        = "aggregated-logging-sink"
+  folder      = google_folder.env_folder.name
+  destination = "logging.googleapis.com/projects/${module.host_project.project_id}/locations/global/buckets/${local.logging_sink_bucket}"
+  filter      = "resource.type = \"cloud_run_revision\" OR resource.type = \"redis_instance\""
+
+  // include all child folders
+  include_children = true
+
+  depends_on = [module.host_project]
+}
+
+// give the logging sink writer identity access to the logs storage bucket
+resource "google_project_iam_binding" "log_writer" {
+
+  project = module.host_project.project_id
+  role    = "roles/logging.bucketWriter"
+
+  members = [
+    google_logging_folder_sink.aggregated_logging_sink.writer_identity,
+  ]
+
+  depends_on = [google_logging_folder_sink.aggregated_logging_sink]
+}
+//---------------------------------------------------------------------------//
