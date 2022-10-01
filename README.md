@@ -113,7 +113,7 @@ There are both team groups and product team groups.
 
 ## Team Groups
 
-### Engineering Team (eng@bitaccess.co)
+### Engineering Team (eng@@company.com)
 
 This group is for all engineers at the company. The below roles are assigned to this group at each environment's top level folder.
 
@@ -135,7 +135,7 @@ This group is for all engineers at the company. The below roles are assigned to 
 - Error Reporting Viewer
 - Cloud Memorystore Redis Viewer
 
-### Engineering Team Elevated (eng-el@bitaccess.co)
+### Engineering Team Elevated (eng-el@company.com)
 
 This group is for engineers with elevated privileges. The below roles are assigned to this group at each environment's top level folder.
 
@@ -145,7 +145,7 @@ This group is for engineers with elevated privileges. The below roles are assign
 - IAP Tunnel resource Accessor
 - IAM Service Account User
 
-### Cloud Operations Team (cloudops@bitaccess.net)
+### Cloud Operations Team (cloudops@company.com)
 
 This group is to give permissions to the CloudOps team at each environment's top level folder.
 
