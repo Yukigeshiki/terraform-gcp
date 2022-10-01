@@ -77,7 +77,8 @@ locals {
   ]
 
   // project names
-  host_project_name = "vpc-host-${local.env}"
+  host_project_name     = "vpc-host-${local.env}"
+  project1_project_name = "project1-${local.env}"
 }
 
 // Get org ID
@@ -274,3 +275,22 @@ resource "google_project_iam_binding" "log_writer" {
   depends_on = [google_logging_folder_sink.aggregated_logging_sink]
 }
 //---------------------------------------------------------------------------//
+
+module "project_1" {
+
+  source = "../../modules/projects/template_projects/cloud_run"
+
+  project_name                   = local.project1_project_name
+  billing_account                = local.billing_acc_id
+  folder_id                      = google_folder.env_folder.folder_id
+  host_project_id                = module.host_project.project_id
+  cr_service_owner               = "group:product1@${local.org}"
+  log_archive_location           = "US-CENTRAL1"
+  log_archive_retention_policy   = 31540000 // 12 months (in seconds)
+  serverless_robot_prod_group_id = local.serverless_robot_group_id
+  cr_alert_channel_members       = {
+    "Laurence Sonnenberg" = "laurence@${local.org}"
+  }
+
+  depends_on = [google_folder.env_folder, module.host_project, data.google_billing_account.my_billing_account]
+}
