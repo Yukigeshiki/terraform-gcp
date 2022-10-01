@@ -62,8 +62,9 @@ locals {
   ]
 
   // project names
-  host_project_name     = "vpc-host-${local.env}"
-  project1_project_name = "project1-${local.env}"
+  host_project_name          = "vpc-host-${local.env}"
+  project1_project_name      = "project1-${local.env}"
+  shared_redis_project1_name = "shared-redis-project1-${local.env}"
 }
 
 // Get org ID
@@ -189,6 +190,29 @@ module "project_1" {
   serverless_robot_prod_group_id = local.serverless_robot_group_id
   cr_alert_channel_members       = {
     "Laurence Sonnenberg" = "laurence@${local.org}"
+  }
+
+  depends_on = [google_folder.env_folder, module.host_project, data.google_billing_account.my_billing_account]
+}
+
+module "shared_redis_project_1" {
+
+  source = "../../modules/projects/template_projects/shared_redis"
+
+  folder_id                    = google_folder.env_folder.folder_id
+  billing_account              = local.billing_acc_id
+  project_name                 = local.shared_redis_project1_name
+  host_project_id              = module.host_project.project_id
+  network_id                   = module.host_project.vpc_network_id
+  log_archive_location         = "US-CENTRAL1"
+  log_archive_retention_policy = 31540000 // 12 months (in seconds)
+
+  redis_config = {
+    "instance_name"  = "${local.shared_redis_project1_name}-instance",
+    "memory_size_gb" = 2,
+    "region"         = "us-central1",
+    "version"        = "REDIS_6_X",
+    "auth_enabled"   = true
   }
 
   depends_on = [google_folder.env_folder, module.host_project, data.google_billing_account.my_billing_account]
