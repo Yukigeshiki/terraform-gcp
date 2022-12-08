@@ -1,11 +1,11 @@
 locals {
 
   cr_rule_priority_60  = "request.path.matches('^.*/.env$')"
-  cr_rule_priority_80  = "request.headers['host'].lower().contains('bitaccess')"
+  cr_rule_priority_80  = "request.headers['host'].lower().contains('robothouse')"
   cr_rule_priority_100 = "has(request.headers['authorization']) && request.headers['authorization'] != \"\""
 
   cr_rule_priority_60_desc  = "Deny when request path ends with /.env"
-  cr_rule_priority_80_desc  = "Allow when 'Host' header contains bitaccess"
+  cr_rule_priority_80_desc  = "Allow when 'Host' header contains robothouse"
   cr_rule_priority_100_desc = "Allow when 'Authorization' header is present and not empty"
 }
 
