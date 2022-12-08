@@ -113,7 +113,7 @@ There are both team groups and product team groups.
 
 ## Team Groups
 
-### Engineering Team (eng@@company.com)
+### Engineering Team (eng@company.com)
 
 This group is for all engineers at the company. The below roles are assigned to this group at each environment's top level folder.
 
@@ -261,11 +261,11 @@ The **Cloud Build SA Core Permissions** custom role contains the following permi
 
 ### iam
 
-**core_service_accounts:** The core_service_accounts ****module creates the needed service accounts for Cloud Run and GitHub actions, then assigns their IAM roles. It is used by project modules and uses the service_account module.
+**core_service_accounts:** The core_service_accounts module creates the needed service accounts for Cloud Run and GitHub actions, then assigns their IAM roles. It is used by project modules and uses the service_account module.
 
 **group:** The group module creates a group and assigns members to it.
 
-**service_account:** The service_account module creates a service account then assigns it IAM roles. Its main use is in the core_service_accounts ****module.
+**service_account:** The service_account module creates a service account then assigns it IAM roles. Its main use is in the core_service_accounts module.
 
 **service_owner:** The service_owner module assigns roles to either a group or a single user. These roles give the group/user permissions relating to common development activities. It also creates an email notification channel for one or more users which can be used to send Cloud Run error notifications. The roles assigned are:
 
@@ -300,10 +300,6 @@ All bash scripts include instructions for needed dependencies and environment va
 **cr_monitoring_dashboard.sh:** The cr_monitoring_dashboard script adds a monitored project (the project running the Cloud Run service) to a scoping project and uses the cr_dashboard_config.json file to create a Cloud Run monitoring dashboard in the scoping projects metric scope.
 
 **cr_migrate_traffic.sh:** The cr_migrate_traffic script migrates 100% of traffic to (depending on user input) either the latest or a named Cloud Run revision.
-
-**connect_gcp_to_drata.sh:** The connect_gcp_to_drata script creates the required Org level custom role and the Drata Service Accounts group, it then adds the Org level role as well as the Viewer role to this group. Once this is completed successfuly it loops through all projects and asks for user input on each iteration as to whether the project must be integrated. If the project must be integrated it runs the same code as the script below.
-
-**add_project_to_drata.sh:** The add_project_to_drata script is used when a stand-alone project (not included in the Terraform environments) needs to be integrated with Drata. It enables the required service APIs, creates the required service account as well as project level custom role, then adds this role to the service account as well as the Viewer role. Once this has completed successfuly it adds the service account to the Drata Service Accounts group.
 
 **cr_alerting.sh:** The cr_alerting script uses the cr_service_cpu_usage_alert.json, cr_service_memory_usage_alert.json and cr_service_request_latency_alert.json files to create alerting policies. Alerting channels are then added to these policies using the console.
 
