@@ -124,8 +124,8 @@ resource "google_project_iam_member" "serverless_robot_group_host_permissions" {
 
 //---------------------------------------------------------------------------// folder logging sink
 // create aggregated logging sink for env folder
-// - the logging bucket (aggregated-logging-sink-bucket) was created manually as Terraform currently does not have an
-//   API to create logging buckets
+// - the logging bucket (aggregated-logging-sink-bucket) is created manually as Terraform currently does not have an
+//   API to create these buckets
 resource "google_logging_folder_sink" "aggregated_logging_sink" {
 
   name        = "aggregated-logging-sink"

@@ -91,7 +91,7 @@ module "project_log_archive" {
   depends_on = [google_project.cloud_run_project]
 }
 
-// Add the serverless-robot-prod SA to the Serverless Robot Group with the VPC Access User role assigned
+// Add the serverless-robot-prod SA to the Serverless Robot Group with the VPC Access User role assigned.
 // This is to give Cloud Run access to the Serverless VPC Connector
 resource "google_cloud_identity_group_membership" "serverless_robot_group_membership" {
 

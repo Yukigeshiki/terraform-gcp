@@ -11,11 +11,11 @@ locals {
   // roles for Cloud Run SA
   cr_sa_roles  = [
     "roles/run.invoker",
-    "organizations/1071464837087/roles/cloudrun.corePermissions",
+    "organizations/[org-number]/roles/cloudrun.corePermissions",
   ]
   // roles for Cloud Build SA
   cb_sa_roles  = [
-    "organizations/1071464837087/roles/cloudbuild.corePermissions",
+    "organizations/[org-number]/roles/cloudbuild.corePermissions",
   ]
   // roles for serverless-robot-prod SA
   srp_sa_roles = [
