@@ -27,8 +27,9 @@ resource "google_storage_bucket" "log_archive_storage" {
   project       = var.project_id
   storage_class = "ARCHIVE"
 
-  // If the archive bucket needs to be deleted, `log_archive_storage_force_destroy` will need to be set to true and
-  // `log_archive_retention_policy` set to its minimum (1) before deletion is attempted.
+  // If the archive bucket needs to be deleted, `log_archive_storage_force_destroy` will need to be set to true,
+  // logs must stop being added to the bucket, and `log_archive_retention_policy` set to its minimum (1) before deletion
+  // is attempted.
   // These changes must be made so that if the data is deleted before the retention period is up, it is done
   // deliberately and not by accident.
   force_destroy = var.log_archive_storage_force_destroy

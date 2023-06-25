@@ -18,7 +18,7 @@ locals {
   ]
 }
 
-// this role will evolve over time as the individual permissions needed become more clear
+// this role can evolve over time as the individual permissions needed become more clear to an org
 resource "google_project_iam_custom_role" "service_owner_role" {
 
   title   = local.service_owner_role_title
@@ -28,7 +28,7 @@ resource "google_project_iam_custom_role" "service_owner_role" {
   permissions = local.service_owner_role_permissions
 }
 
-// the service owner custom role will be re-added and the default roles removed once the permissions
+// the service owner custom role can be re-added and the default roles removed once the permissions
 // needed are more clear
 #resource "google_project_iam_binding" "cr_service_owner" {
 #
