@@ -89,7 +89,7 @@ data "google_organization" "org" {
 }
 
 //---------------------------------------------------------------------------// global iam groups
-// This code block is not duplicated in the prod env as these groups are created globally just once
+// This code block is not duplicated in the test or prod env as these groups are created globally just once
 module "eng_group" {
 
   source = "../../modules/iam/group"
@@ -165,7 +165,7 @@ module "product3_product_group" {
 }
 // -------------------- //
 
-// Create groups for serverless-robot-prod service accounts (dev and prod envs)
+// Create groups for serverless-robot-prod service accounts (dev, test and prod envs)
 // These groups will hold serverless-robot service accounts for service projects that need access to the VPC
 // Connector in each environment's host project
 resource "google_cloud_identity_group" "serverless_robot_group" {
@@ -248,8 +248,8 @@ resource "google_project_iam_member" "serverless_robot_group_host_permissions" {
 
 //---------------------------------------------------------------------------// folder logging sink
 // create aggregated logging sink for env folder
-// - the logging bucket (aggregated-logging-sink-bucket) was created manually as Terraform currently does not have an
-//   API to create logging buckets
+// - the logging bucket (aggregated-logging-sink-bucket) is created manually as Terraform currently does not have an
+//   API to create these buckets
 resource "google_logging_folder_sink" "aggregated_logging_sink" {
 
   name        = "aggregated-logging-sink"
