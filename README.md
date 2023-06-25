@@ -15,7 +15,7 @@ The **tf-admin** project must be created and the following APIs enabled:
 
 ### Terraform Admin Custom Role
 
-At the Org level the **Terraform Admin** custom role has must be created with the following permissions:
+At the Org level the **Terraform Admin** custom role must be created with the following permissions:
 
 - billing.accounts.get
 - billing.resourceAssociations.create
@@ -97,7 +97,7 @@ GitOps style Terraform deployments can be set up to fit Google best practices by
 
 ### Environments
 
-The Terraform code describes three environments; development, test and production. Each of these environments has a top level folder which contains all other environment resources (subfolders and projects).
+The Terraform code describes three environments; development, test and production. Each of these environments has a top level folder which contains all other environment resources (sub-folders and projects).
 
 ### Networking
 
@@ -105,7 +105,7 @@ Each environment has a host project, this project contains a host VPC network wi
 
 ### Administration
 
-Each host project is considered a scoping project and contains consolidated monitoring, logging and alerting (including alerting channels) for its environment; with service projects added as monitored projects inside this scope. Individual Cloud Run projects are assigned a Service Owner (this can be a product group or an individual user). The Service Owner has the permissions needed to do general development tasks. Each project also has a log archive bucket which has a configurable retention period (in most cases it will be 12 months in accordance with the "System Access & Authorization Control Policy").
+Each host project is considered a scoping project and contains consolidated monitoring, logging and alerting (including alerting channels) for its environment; with service projects added as monitored projects inside this scope. Individual Cloud Run projects are assigned a Service Owner (this can be a product group or an individual user). The Service Owner has the permissions needed to do general development tasks. Each project also has a log archive bucket which has a configurable retention period (this can be whatever is needed for a log data retention policy).
 
 # User Groups
 
@@ -265,7 +265,7 @@ The **Cloud Build SA Core Permissions** custom role contains the following permi
 
 **group:** The group module creates a group and assigns members to it.
 
-**service_account:** The service_account module creates a service account then assigns it IAM roles. Its main use is in the core_service_accounts module.
+**service_account:** The service_account module creates a service account then assigns it IAM roles. It's main use is in the core_service_accounts module.
 
 **service_owner:** The service_owner module assigns roles to either a group or a single user. These roles give the group/user permissions relating to common development activities. It also creates an email notification channel for one or more users which can be used to send Cloud Run error notifications. The roles assigned are:
 
@@ -283,7 +283,7 @@ The **Cloud Build SA Core Permissions** custom role contains the following permi
 
 ### projects
 
-**host_project:** The host project holds the host VPC network. It is also where a serverless connector will be created for Cloud Run to access resources on the internal VPC network, eg. Cloud SQL. Consolidated logging/monitoring/alerting is also maintained in this project, but it is set up outside of Terraform. Finally, a VM is created here for CLI access (over SSH) to resources on the internal network, eg. a shared Redis db.
+**host_project:** The host project holds the host VPC network. It is also where a serverless connector will be created for Cloud Run to access resources on the internal VPC network, e.g. Cloud SQL. Consolidated logging/monitoring/alerting is also maintained in this project, but it is set up outside of Terraform. Finally, a VM is created here for CLI access (over SSH) to resources on the internal network, e.g. a shared Redis db.
 
 **Template Projects:**
 
@@ -303,4 +303,4 @@ All bash scripts include instructions for needed dependencies and environment va
 
 **cr_alerting.sh:** The cr_alerting script uses the cr_service_cpu_usage_alert.json, cr_service_memory_usage_alert.json and cr_service_request_latency_alert.json files to create alerting policies. Alerting channels are then added to these policies using the console.
 
-**add_secrets_to_gcp.sh:** The add_secrets_to_gcp scipt uses a .env file to add secrets and config to GCP Secret Manager.
+**add_secrets_to_gcp.sh:** The add_secrets_to_gcp script uses a .env file to add secrets and config to GCP Secret Manager.
